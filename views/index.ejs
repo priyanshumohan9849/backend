@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="stylesheets/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="stylesheets/style.css">
+
+    <title>Login #2</title>
+    <script>
+      window.onload=function()
+      {
+        //login();
+      }
+      async function login(e){
+        e.preventDefault();
+        let admin=document.getElementById("username").value;
+        let pass=document.getElementById("password").value;
+        console.log(admin,pass)
+        let response=await fetch('/admin/login',{
+            method:"POST",
+            body:JSON.stringify({
+                
+                "admin":admin,
+                "pass":pass
+            }),
+            headers:{
+                "content-type":"application/json; charset=UTF-8"
+            }
+        })
+         await response.json().then((res)=>{
+           if(res.id)
+           {
+              localStorage.setItem("admin_id",res.id)
+              window.location=`/addmovie`
+           }
+           else{
+             console.log(res)
+             document.getElementById("warning").innerText=res.result;
+           }
+         })
+      }
+    </script>
+  </head>
+  <body>
+  
+
+  
+    <div class="bg order-1 order-md-2" style="background-image: url('images/bg_1.jpg'); width: 100vw; height: 100vh;  background-repeat: no-repeat;background-attachment: fixed;  background-position: center;">
+      <div class="container" style="height: 100%;position: relative;">
+       
+        <div class="row justify-content-center align-items-center" style="position: absolute;top: 50%; transform: translateY(-50%);width: 100%;">
+          <div class="col-md-7" style="box-shadow: 0 0 15px 5px black;">
+            <h1 class="text-danger">Admin <strong>Login</strong></h1>
+            <!-- <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> -->
+            <div>
+              <div class="form-group first">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" placeholder="your-email@gmail.com" id="username" name="username" required>
+              </div>
+              <div class="form-group last mb-3">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" placeholder="Your Password" id="password" name="password" required>
+              </div>
+              <center>
+                <button class="btn btn-primary" onclick="login(event)">Submit</button>
+              </center>
+              
+            </div>
+            <div class="mt-2">
+              <p id="warning" class="p-1" style="color: blanchedalmond; background-color: brown;">warning: <%= msg %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+
+    
+  
+    
+    
+
+    <script src="javascripts/jquery-3.3.1.min.js"></script>
+    <script src="javascripts/popper.min.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/main.js"></script>
+  </body>
+</html>
